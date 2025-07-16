@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Settings } from 'lucide-react'
+import { Settings, Bell, Plus, TrendingUp, Target, Calendar, Users } from 'lucide-react'
 import Card from '../components/Card'
 import Button from '../components/Button'
 
@@ -41,11 +41,34 @@ const DashboardScreen = () => {
       color: 'bg-orange-50',
       iconBg: 'bg-orange-100',
     },
+    {
+      title: 'Progress',
+      subtitle: 'Track growth',
+      icon: '📈',
+      path: '/progress',
+      color: 'bg-indigo-50',
+      iconBg: 'bg-indigo-100',
+    },
+    {
+      title: 'Goals',
+      subtitle: 'Set targets',
+      icon: '🎯',
+      path: '/goals',
+      color: 'bg-pink-50',
+      iconBg: 'bg-pink-100',
+    },
+  ]
+
+  const quickActions = [
+    { title: 'My Sessions', icon: Calendar, path: '/my-sessions', count: 2 },
+    { title: 'Achievements', icon: Target, path: '/achievements', count: 5 },
+    { title: 'Insights', icon: TrendingUp, path: '/insights', count: null },
+    { title: 'Reports', icon: Users, path: '/reports', count: null },
   ]
   
   return (
-    <div className="gradient-bg min-h-screen safe-area">
-      <div className="section-padding pb-8">
+    <div className="gradient-bg min-h-screen safe-area pb-20">
+      <div className="section-padding">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -62,12 +85,21 @@ const DashboardScreen = () => {
             <h1 className="text-xl font-bold text-primary">iMirror</h1>
           </div>
           
-          <button
-            onClick={() => navigate('/settings')}
-            className="p-3 hover:bg-white/50 rounded-full transition-colors duration-200"
-          >
-            <Settings className="w-6 h-6 text-primary" />
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => navigate('/notifications')}
+              className="p-3 hover:bg-white/50 rounded-full transition-colors duration-200 relative"
+            >
+              <Bell className="w-6 h-6 text-primary" />
+              <div className="absolute top-2 right-2 w-2 h-2 bg-error rounded-full" />
+            </button>
+            <button
+              onClick={() => navigate('/settings')}
+              className="p-3 hover:bg-white/50 rounded-full transition-colors duration-200"
+            >
+              <Settings className="w-6 h-6 text-primary" />
+            </button>
+          </div>
         </motion.div>
         
         {/* Welcome Section */}
@@ -77,8 +109,25 @@ const DashboardScreen = () => {
           transition={{ delay: 0.1 }}
           className="mb-8"
         >
-          <h2 className="text-3xl font-bold text-primary mb-2">Welcome!</h2>
+          <h2 className="text-3xl font-bold text-primary mb-2">Welcome Back!</h2>
           <p className="text-base text-secondary">What would you like to do today?</p>
+        </motion.div>
+
+        {/* Quick Stats */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="grid grid-cols-2 gap-4 mb-6"
+        >
+          <Card className="text-center" padding="small">
+            <div className="text-2xl font-bold text-primary">24</div>
+            <div className="text-xs text-text-secondary">Total Feedback</div>
+          </Card>
+          <Card className="text-center" padding="small">
+            <div className="text-2xl font-bold text-success">4.3</div>
+            <div className="text-xs text-text-secondary">Avg Rating</div>
+          </Card>
         </motion.div>
         
         {/* Dashboard Grid */}
@@ -88,7 +137,7 @@ const DashboardScreen = () => {
               key={item.title}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 + index * 0.1 }}
+              transition={{ delay: 0.3 + index * 0.1 }}
               onClick={() => navigate(item.path)}
               className="cursor-pointer"
             >
@@ -108,55 +157,78 @@ const DashboardScreen = () => {
             </motion.div>
           ))}
         </div>
-        
-        {/* Sessions Card */}
+
+        {/* Quick Actions */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="section-margin"
+          transition={{ delay: 0.8 }}
+          className="mb-6"
         >
-          <Card>
-            <div className="flex items-center">
-              <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center mr-4">
-                <span className="text-2xl">⏰</span>
-              </div>
-              <div className="flex-1">
-                <h3 className="text-lg font-bold text-primary mb-1">My Sessions</h3>
-                <p className="text-sm text-secondary">No upcoming sessions</p>
-              </div>
-              <Button variant="outline" size="small">
-                Schedule
-              </Button>
-            </div>
-          </Card>
+          <h3 className="text-lg font-bold text-primary mb-4">Quick Actions</h3>
+          <div className="grid grid-cols-2 gap-3">
+            {quickActions.map((action, index) => {
+              const IconComponent = action.icon
+              return (
+                <Card
+                  key={action.title}
+                  className="cursor-pointer hover:shadow-lg transition-all duration-200"
+                  onClick={() => navigate(action.path)}
+                  padding="small"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center">
+                      <IconComponent className="w-5 h-5 text-primary mr-2" />
+                      <span className="text-sm font-medium text-text-primary">{action.title}</span>
+                    </div>
+                    {action.count && (
+                      <span className="bg-primary text-white text-xs px-2 py-1 rounded-full">
+                        {action.count}
+                      </span>
+                    )}
+                  </div>
+                </Card>
+              )
+            })}
+          </div>
         </motion.div>
         
         {/* Updates Card */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7 }}
+          transition={{ delay: 0.9 }}
         >
           <Card className="text-center" padding="large">
-            <h3 className="text-xl font-bold text-primary mb-6">Updates</h3>
+            <h3 className="text-xl font-bold text-primary mb-6">Recent Updates</h3>
             
             <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <span className="text-2xl">📈</span>
             </div>
             
-            <h4 className="text-lg font-semibold text-primary mb-2">No updates yet</h4>
+            <h4 className="text-lg font-semibold text-primary mb-2">Great Progress!</h4>
             <p className="text-base text-secondary mb-6 leading-relaxed">
-              Complete your first Self-Assessment to track your emotional progress here.
+              You've completed 2 goals this month and received positive feedback from 5 colleagues.
             </p>
             
-            <Button
-              onClick={() => navigate('/self-assessment')}
-              variant="secondary"
-              fullWidth
-            >
-              Take Assessment
-            </Button>
+            <div className="flex gap-3">
+              <Button
+                onClick={() => navigate('/progress')}
+                variant="secondary"
+                className="flex-1"
+                size="small"
+              >
+                View Progress
+              </Button>
+              <Button
+                onClick={() => navigate('/goals')}
+                className="flex-1"
+                size="small"
+              >
+                <Plus className="w-4 h-4 mr-1" />
+                New Goal
+              </Button>
+            </div>
           </Card>
         </motion.div>
       </div>
