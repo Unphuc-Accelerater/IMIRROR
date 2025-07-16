@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    line-height: 1.6;
+    color: #090a0a;
+    background: linear-gradient(135deg, #dbeafe 0%, #cae1fe 50%, #fce7f3 100%);
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  #root {
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  .mobile-container {
+    @apply max-w-md mx-auto min-h-screen bg-white shadow-xl relative overflow-hidden;
+  }
+  
+  .gradient-bg {
+    background: linear-gradient(135deg, #dbeafe 0%, #cae1fe 50%, #fce7f3 100%);
+  }
+  
+  .card {
+    @apply bg-white rounded-2xl shadow-lg p-6;
+  }
+  
+  .btn-primary {
+    @apply bg-primary text-white px-6 py-3 rounded-full font-medium transition-all duration-200 hover:bg-primaryDark active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  .btn-secondary {
+    @apply bg-transparent border-2 border-primary text-primary px-6 py-3 rounded-full font-medium transition-all duration-200 hover:bg-primary hover:text-white active:scale-95;
+  }
+  
+  .input-field {
+    @apply w-full px-4 py-3 border border-border-light rounded-xl bg-gray-50 focus:bg-white focus:border-primary focus:outline-none transition-all duration-200;
+  }
+}
+
+@layer utilities {
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
