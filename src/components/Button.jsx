@@ -9,34 +9,63 @@ const Button = ({
   disabled = false, 
   loading = false,
   className = '',
+  fullWidth = false,
   ...props 
 }) => {
-  const baseClasses = 'font-medium transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center'
-  
-  const variants = {
-    primary: 'bg-primary text-white hover:bg-primaryDark',
-    secondary: 'bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-white',
-    outline: 'bg-transparent border border-border-gray text-text-primary hover:bg-gray-50'
+  const getButtonClasses = () => {
+    let classes = 'font-semibold transition-all duration-200 flex items-center justify-center gap-2 '
+    
+    // Size classes
+    switch (size) {
+      case 'small':
+        classes += 'px-4 py-2 text-sm rounded-lg min-h-[36px] '
+        break
+      case 'large':
+        classes += 'px-8 py-4 text-lg rounded-3xl min-h-[56px] '
+        break
+      default:
+        classes += 'px-6 py-3 text-base rounded-2xl min-h-[48px] '
+    }
+    
+    // Variant classes
+    switch (variant) {
+      case 'secondary':
+        classes += 'bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-white '
+        break
+      case 'outline':
+        classes += 'bg-transparent border border-gray-300 text-gray-700 hover:bg-gray-50 '
+        break
+      default:
+        classes += 'btn-primary '
+    }
+    
+    // Full width
+    if (fullWidth) {
+      classes += 'w-full '
+    }
+    
+    // Disabled state
+    if (disabled || loading) {
+      classes += 'opacity-50 cursor-not-allowed '
+    }
+    
+    return classes + className
   }
-  
-  const sizes = {
-    small: 'px-4 py-2 text-sm rounded-lg',
-    medium: 'px-6 py-3 text-base rounded-full',
-    large: 'px-8 py-4 text-lg rounded-full'
-  }
-  
-  const classes = `${baseClasses} ${variants[variant]} ${sizes[size]} ${className}`
   
   return (
     <motion.button
-      whileTap={{ scale: disabled ? 1 : 0.95 }}
-      className={classes}
-      onClick={onClick}
+      whileTap={disabled || loading ? {} : { scale: 0.98 }}
+      whileHover={disabled || loading ? {} : { y: -1 }}
+      className={getButtonClasses()}
+      onClick={disabled || loading ? undefined : onClick}
       disabled={disabled || loading}
       {...props}
     >
       {loading ? (
-        <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+        <>
+          <div className="loading-spinner" />
+          Loading...
+        </>
       ) : (
         children
       )}
