@@ -69,10 +69,12 @@ const CoachesScreen = ({ navigation }) => {
 
     for (let i = 0; i < fullStars; i++) {
       stars.push(<Text key={i} style={styles.star}>⭐</Text>);
+      )
     }
 
     if (hasHalfStar) {
       stars.push(<Text key="half" style={styles.star}>⭐</Text>);
+      )
     }
 
     return stars;

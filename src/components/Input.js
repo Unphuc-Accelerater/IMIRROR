@@ -22,6 +22,7 @@ const Input = ({
   return (
     <View style={[styles.container, style]}>
       {label && <Text style={styles.label}>{label}</Text>}
+      }
       <TextInput
         style={[
           styles.input,
@@ -42,6 +43,7 @@ const Input = ({
         numberOfLines={numberOfLines}
       />
       {error && <Text style={styles.errorText}>{error}</Text>}
+      }
     </View>
   );
 };
