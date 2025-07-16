@@ -1,1 +1,0 @@
-export { FooterNavBar } from "./FooterNavBar";
